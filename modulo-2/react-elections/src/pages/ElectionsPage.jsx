@@ -9,112 +9,191 @@ import Header from "../components/Header";
 import Loading from "../components/Loading";
 import Main from "../components/Main";
 import Item from "../components/Item";
-import Election from "../components/Election";
+import CandidateCard from "../components/CandidateCard";
+import MainTitle from "../components/MainTitle";
+import SelectItem from "../components/SelectItem";
+import ElectionBoard from "../components/ElectionBoard";
 
 export default function ElectionsPage() {
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [errorCities, setErrorCities] = useState("");
+  const [errorElection, setErrorElection] = useState("");
+  const [errorCandidates, setErrorCandidates] = useState("");
+  const [loadingCities, setCitesLoading] = useState(true);
   const [loadingElection, setLoadingElection] = useState(true);
   const [loadingCandidates, setLoadingCandidates] = useState(true);
   const [cities, setCities] = useState("");
   const [candidates, setCandidates] = useState("");
   const [selectedCityId, setSelectedCityId] = useState("");
+  const [selectedCityName, setSelectedCityName] = useState("");
   const [election, setElection] = useState("");
 
   useEffect(() => {
-    async function fetchInitialData() {
-      const citiesResponse = await apiGetAllCities();
-      if (citiesResponse.errors) {
-        setError(citiesResponse.errors[0].message);
-      } else {
+    async function getCities() {
+      try {
+        const citiesResponse = await apiGetAllCities();
         console.log("Loaded cities...");
         setCities(citiesResponse);
-        setLoading(false);
+        setCitesLoading(false);
+        return citiesResponse;
+      } catch {
+        setErrorCities("Failed to fetch cities");
+      }
+    }
+
+    async function getFirstElection(citiesResponse) {
+      try {
         const firstElection = await apiGetElection(citiesResponse[0].id);
         setElection(firstElection);
+        setSelectedCityName(citiesResponse[0].name);
         console.log("Loaded elections...");
         setLoadingElection(false);
+      } catch {
+        setErrorElection("Failed to fetch first election");
+      }
+    }
+
+    async function getCandidates() {
+      try {
         const candidateResponse = await apiGetAllCandidates();
-        citiesResponse.errors
-          ? setError(candidateResponse.errors[0].message)
-          : setCandidates(candidateResponse);
+        setCandidates(candidateResponse);
         console.log("Loaded candidates...");
         setLoadingCandidates(false);
+      } catch {
+        setErrorCandidates("Failed to fetch candidates");
       }
-
-      setError("");
     }
-    fetchInitialData();
+
+    const fetchData = () => {
+      getCities().then((citiesResponse) =>
+        getFirstElection(citiesResponse).then(getCandidates())
+      );
+    };
+
+    fetchData();
+    setErrorCities("");
+    setErrorElection("");
+    setErrorCandidates("");
   }, []);
 
+  // hook to update elections info after selected changes
   useEffect(() => {
-    async function fetchElections() {
-      const response = await apiGetElection(selectedCityId);
-      response.errors
-        ? setError(response.errors[0].message)
-        : setElection(response);
+    async function fetchElectionsById() {
+      try {
+        console.log("Updating elections...");
+
+        const electionsResponse = await apiGetElection(selectedCityId);
+        setElection(electionsResponse.sort((a, b) => b.votes - a.votes));
+
+        setErrorElection("");
+        setLoadingElection(false);
+      } catch (errorElection) {
+        setErrorElection("Could not fetch elections for id: " + selectedCityId);
+      }
     }
-    if (selectedCityId) {
-      fetchElections();
-    }
+    fetchElectionsById();
   }, [selectedCityId]);
 
+  // hook to sort candidates by votes
+  useEffect(() => {
+    if (!loadingElection) {
+      let sortedElection = election.sort((a, b) => b.votes - a.votes);
+      setElection(sortedElection);
+    }
+  }, [election]);
+
+  // handle selected city on changes
   function handleOnChange(event) {
+    setLoadingElection(true);
     const newCitySelected = cities.find(
       (city) => city.name === event.target.value
     );
-    console.log(newCitySelected);
     setSelectedCityId(newCitySelected.id);
-  }
-  let mainJsxElection = (
-    <div className="flex flex-row justify-center mt-8">
-      Carregando eleições...
-      <Loading />
-    </div>
-  );
-
-  let mainJsx = (
-    <div className="flex flex-row justify-center mt-8">
-      Carregando municípios...
-      <Loading />
-    </div>
-  );
-
-  if (error) {
-    mainJsx = <Error>{error}</Error>;
+    setSelectedCityName(newCitySelected.name);
+    setLoadingElection(false);
   }
 
-  if (!loading && !loadingElection) {
+  function loadingScreen(option) {
+    return (
+      <div className="flex flex-row justify-center mt-8">
+        Carregando {option}...
+        <Loading />
+      </div>
+    );
+  }
+
+  let mainJsxElection = loadingScreen("eleições");
+  let mainJsx = loadingScreen("municipios");
+
+  if (errorCities) {
+    mainJsx = <Error>{errorCities}</Error>;
+  }
+
+  if (errorElection || errorCandidates) {
+    mainJsxElection = <Error>{errorElection}</Error>;
+  }
+
+  if (!loadingCities && !loadingElection) {
     mainJsx = (
       <>
-        <div className="text-center m-1 p-1">Escolha o município</div>
-        <div className="flex flex-row items-center justify-center">
-          <select name="citiesName" onChange={handleOnChange}>
-            {cities.map((city) => {
-              return <Item key={city.id}>{city}</Item>;
-            })}
-          </select>
-        </div>
+        <MainTitle>Escolha o município</MainTitle>
+        <SelectItem
+          className="shadow-lg rounded-lg"
+          name="citiesName"
+          onCityChange={handleOnChange}
+        >
+          {cities.map((city) => {
+            return <Item key={city.id}>{city}</Item>;
+          })}
+        </SelectItem>
       </>
     );
   }
 
-  if (!loadingElection && !loadingCandidates) {
+  function getCandidateByElection(election) {
+    return candidates.find(
+      (candidate) => candidate.id === election.candidateId
+    );
+  }
+
+  function getCityByElection(election) {
+    return cities.find((city) => city.id === election.cityId);
+  }
+
+  function getCandidatePercent(votes, presence) {
+    return `${((+votes * 100) / +presence).toFixed(2)}%`;
+  }
+
+  function checkElected(votes) {
+    let allVotes = election.map((e) => e.votes);
+    if (votes === Math.max.apply(0, allVotes)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  if (!loadingElection) {
     mainJsxElection = (
       <div>
-        {election.map((election) => {
-          let candidateObject = candidates.find(
-            (candidate) => candidate.id === election.candidateId
-          );
-          let cityObject = cities.find((city) => city.id === election.cityId);
-          return (
-            <Election key={election.id}>
-              Candidato: {candidateObject.name} -
-              {((+election.votes * 100) / +cityObject.presence).toFixed(2)}% -{" "}
-              {election.votes}
-            </Election>
-          );
-        })}
+        <ElectionBoard title={selectedCityName} onLoading={loadingElection}>
+          {election
+            .map((item) => {
+              let candidate = getCandidateByElection(item);
+              let city = getCityByElection(item);
+
+              return (
+                <CandidateCard
+                  key={item.id}
+                  candidateName={candidate.name}
+                  imageName={candidate.username}
+                  percentVotes={getCandidatePercent(item.votes, city.presence)}
+                  totalVotes={item.votes}
+                  electedFlag={checkElected(item.votes)}
+                />
+              );
+            })
+            .sort((a, b) => b.votes - a.votes)}
+        </ElectionBoard>
       </div>
     );
   }
