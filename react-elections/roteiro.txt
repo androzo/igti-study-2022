@@ -1,0 +1,8 @@
+(x) setup backend 
+(x) criar main, header e electionsPager
+(x) criar serviços de captura dos dados com axios
+( ) 
+( ) 
+( ) 
+( ) 
+( ) 
