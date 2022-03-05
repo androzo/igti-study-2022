@@ -13,7 +13,7 @@ export const MONTHS = [
   { text: "Dezembro", value: "12" },
 ];
 
-export const YEARS = ["2020", "2021", "2022"];
+export const YEARS = ["2020", "2021"];
 
 export function getToday() {
   let a: Date = new Date();
