@@ -13,6 +13,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -24,12 +25,18 @@ const useStyles = makeStyles((theme: Theme) =>
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
+      float: "left",
     },
     selectEmpty: {
       marginTop: theme.spacing(2),
     },
     table: {
       minWidth: 500,
+    },
+    summary: {
+      float: "right",
+      margin: theme.spacing(2),
+      marginTop: theme.spacing(2),
     },
   })
 );
@@ -45,7 +52,7 @@ export default function DespesasPage() {
     return toast.error(
       "Nenhuma despesa encontrada para esta data! Tente outra data",
       {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -56,7 +63,7 @@ export default function DespesasPage() {
     );
   }
 
-  function updateDespesas() {
+  useEffect(() => {
     let sumTotalExpenses: number = 0;
     getDespesasEndpoint(year, month).then((response) => {
       response.map((despesa) => {
@@ -70,64 +77,73 @@ export default function DespesasPage() {
         popError();
       }
     });
-  }
-
-  useEffect(() => {
-    updateDespesas();
   }, [month, year]);
-
-  const handleYearChange = (event: ChangeEvent<{ value: unknown }>) => {
-    setYear(event.target.value as string);
-    return <Link to={`${event.target.value as string}-${month}`}></Link>;
-  };
-
-  const handleMonthChange = (event: ChangeEvent<{ value: unknown }>) => {
-    setMonth(event.target.value as string);
-    return <Link to={`${year}-${event.target.value as string}`}></Link>;
-  };
 
   const classes = useStyles();
   return (
     <div>
-      <Container component="div" maxWidth="sm">
-        <FormControl className={classes.formControl}>
-          <InputLabel id="yearLabel">Year</InputLabel>
-          <Select
-            labelId="yearLabel"
-            id="yearId"
-            value={year}
-            onChange={handleYearChange}
-          >
-            {YEARS.map((item) => {
-              return (
-                <MenuItem value={item} key={item}>
-                  {item}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-        <FormControl className={classes.formControl}>
-          <InputLabel id="monthLabel">Month</InputLabel>
-          <Select
-            labelId="monthLabel"
-            id="labelId"
-            value={month}
-            onChange={handleMonthChange}
-          >
-            {MONTHS.map((item) => {
-              return (
-                <MenuItem value={item.value} key={item.value}>
-                  {item.text}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-      </Container>
-      <Container component="div" maxWidth="sm">
-        Despesa total:
-        <strong> R$ {totalExpenses?.toFixed(2).replace(".", ",")}</strong>
+      <Container component="div" maxWidth="md">
+        <Box component="div">
+          <Box>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="yearLabel">Year</InputLabel>
+              <Select
+                labelId="yearLabel"
+                id="yearId"
+                value={year}
+                onChange={(event: ChangeEvent<{ value: unknown }>) => {
+                  setYear(event.target.value as string);
+                  return (
+                    <Link
+                      to={`${event.target.value as string}-${month}`}
+                    ></Link>
+                  );
+                }}
+              >
+                {YEARS.map((item) => {
+                  return (
+                    <MenuItem value={item} key={item}>
+                      {item}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="monthLabel">Month</InputLabel>
+              <Select
+                labelId="monthLabel"
+                id="labelId"
+                value={month}
+                onChange={(event: ChangeEvent<{ value: unknown }>) => {
+                  setMonth(event.target.value as string);
+                  return (
+                    <Link to={`${year}-${event.target.value as string}`}></Link>
+                  );
+                }}
+              >
+                {MONTHS.map((item) => {
+                  return (
+                    <MenuItem value={item.value} key={item.value}>
+                      {item.text}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </Box>
+          <Box className={classes.summary}>
+            <span>Despesa total: </span>
+            <span>
+              <strong>
+                {totalExpenses?.toLocaleString("pt-br", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
+              </strong>
+            </span>
+          </Box>
+        </Box>
       </Container>
       <Container component="div" maxWidth="md">
         <TableContainer component={Paper}>
@@ -161,7 +177,10 @@ export default function DespesasPage() {
                   <TableCell align="center">{despesa.categoria}</TableCell>
                   <TableCell align="center">{despesa.dia}</TableCell>
                   <TableCell align="right">
-                    R$ {despesa.valor.toFixed(2).replace(".", ",")}
+                    {despesa.valor.toLocaleString("pt-br", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
                   </TableCell>
                 </TableRow>
               ))}
@@ -170,7 +189,7 @@ export default function DespesasPage() {
         </TableContainer>
       </Container>
       <ToastContainer
-        position="bottom-center"
+        position="top-right"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
