@@ -17,11 +17,6 @@ const useStyles = makeStyles((theme: Theme) =>
     selectEmpty: {
       marginTop: theme.spacing(2),
     },
-    summary: {
-      float: "right",
-      margin: theme.spacing(2),
-      marginTop: theme.spacing(2),
-    },
   })
 );
 
@@ -46,7 +41,7 @@ export default function DespesasSelect(props: IDespesasSelectProps) {
 
   const classes = useStyles();
   return (
-    <Box component="div">
+    <Box display="flex" justifyContent={"space-between"} alignItems="center">
       <Box>
         <FormControl className={classes.formControl}>
           <InputLabel id="yearLabel">Year</InputLabel>
@@ -83,16 +78,12 @@ export default function DespesasSelect(props: IDespesasSelectProps) {
           </Select>
         </FormControl>
       </Box>
-      <Box className={classes.summary}>
-        <span>Despesa total: </span>
-        <span>
-          <strong>
-            {totalExpenses?.toLocaleString("pt-br", {
-              style: "currency",
-              currency: "BRL",
-            })}
-          </strong>
-        </span>
+      <Box>
+        Despesa total:{" "}
+        {totalExpenses?.toLocaleString("pt-br", {
+          style: "currency",
+          currency: "BRL",
+        })}
       </Box>
     </Box>
   );

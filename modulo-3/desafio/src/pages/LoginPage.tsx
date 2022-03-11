@@ -1,5 +1,3 @@
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -35,7 +33,7 @@ interface ILoginPageProps {
   onSignIn: (user: IUser) => void;
 }
 
-export default function LoginPage() {
+export default function LoginPage(props: ILoginPageProps) {
   const classes = useStyles();
   const [email, setEmail] = useState("usuario@email.com");
   const [password, setPassword] = useState("1234");
@@ -43,13 +41,8 @@ export default function LoginPage() {
 
   function signIn(evt: React.FormEvent) {
     evt.preventDefault();
-    signInEndpoint(email, password).then(
-      (user) => {
-        console.log(user);
-      },
-      (e) => {
-        setError("Email não encontrado ou senha incorreta");
-      }
+    signInEndpoint(email, password).then(props.onSignIn, (e) =>
+      setError("Email não encontrado ou senha incorreta")
     );
   }
 

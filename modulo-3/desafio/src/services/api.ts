@@ -27,6 +27,13 @@ export function signInEndpoint(email: string, senha: string): Promise<IUser> {
   }).then(handleResponse);
 }
 
+export function signOutEndpoint(): Promise<IUser> {
+  return fetch(`http://localhost:3001/sessao/finalizar`, {
+    credentials: "include",
+    method: "POST",
+  }).then(handleResponse);
+}
+
 export function getDespesasEndpoint(
   year: string,
   month: string

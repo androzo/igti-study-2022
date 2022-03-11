@@ -1,14 +1,23 @@
 import Container from "@material-ui/core/Container";
 import { useEffect, useState } from "react";
-import { getDespesasEndpoint, IDespesa } from "../services/api";
+import { getDespesasEndpoint, IDespesa, IUser } from "../services/api";
 import { useParams } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import DespesasTable from "./DespesasTable";
-import DespesasSelect from "./DespesasSelect";
+import DespesasTable from "../components/DespesasTable";
+import DespesasSelect from "../components/DespesasSelect";
 import { Link } from "react-router-dom";
+import DespesasHeader from "../components/DespesasHeader";
+import DespesasTab from "../components/DespesasTab";
+import { Box } from "@material-ui/core";
 
-export default function DespesasPage() {
+interface IDespesasPageProps {
+  user: IUser;
+  onSignOut: () => void;
+}
+
+export default function DespesasPage(props: IDespesasPageProps) {
+  const { user, onSignOut } = props;
   const params = useParams<{ year: string; month: string }>();
   const [despesas, setDespesas] = useState<IDespesa[]>([]);
   const [year, setYear] = useState(params.year);
@@ -46,6 +55,7 @@ export default function DespesasPage() {
       response.map((despesa) => {
         sumTotalExpenses = sumTotalExpenses + despesa.valor;
         despesa.dia = +despesa.dia;
+        return true;
       });
       setDespesas(response.sort((a, b) => a.dia - b.dia));
       setTotalExpenses(sumTotalExpenses);
@@ -59,6 +69,9 @@ export default function DespesasPage() {
   return (
     <div>
       <Container component="div" maxWidth="md">
+        <DespesasHeader user={user} onSignOut={onSignOut} />
+      </Container>
+      <Container component="div" maxWidth="md">
         <DespesasSelect
           month={month}
           year={year}
@@ -68,7 +81,7 @@ export default function DespesasPage() {
         />
       </Container>
       <Container component="div" maxWidth="md">
-        <DespesasTable despesas={despesas} />
+        <DespesasTab despesas={despesas} />
       </Container>
       <ToastContainer
         position="top-right"

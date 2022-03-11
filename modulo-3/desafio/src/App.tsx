@@ -6,32 +6,35 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { getUserEndpoint } from "./services/api";
+import { getUserEndpoint, IUser, signOutEndpoint } from "./services/api";
 import { useEffect, useState } from "react";
 import LoginPage from "./pages/LoginPage";
 
 function App() {
-  const [hasSession, setHasSession] = useState(false);
+  const [user, setUser] = useState<IUser | null>(null);
+
   useEffect(() => {
-    getUserEndpoint().then(
-      () => setHasSession(true),
-      () => setHasSession(false)
-    );
+    getUserEndpoint().then(setUser, () => setUser(null));
   }, []);
 
-  if (hasSession) {
+  function signOut() {
+    signOutEndpoint();
+    setUser(null);
+  }
+
+  if (user) {
     return (
       <Router>
         <Switch>
           <Route path="/despesas/:year-:month">
-            <DespesasPage></DespesasPage>
+            <DespesasPage user={user} onSignOut={signOut}></DespesasPage>
           </Route>
           <Redirect to={{ pathname: "/despesas/2020-06" }}></Redirect>
         </Switch>
       </Router>
     );
   } else {
-    return <LoginPage />;
+    return <LoginPage onSignIn={setUser} />;
   }
 }
 
