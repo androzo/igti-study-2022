@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { getUserEndpoint, IUser, signOutEndpoint } from "./services/api";
 import { useEffect, useState } from "react";
+import { authContext } from "./authContext";
 import LoginPage from "./pages/LoginPage";
 
 function App() {
@@ -17,21 +18,23 @@ function App() {
     getUserEndpoint().then(setUser, () => setUser(null));
   }, []);
 
-  function signOut() {
+  function onSignOut() {
     signOutEndpoint();
     setUser(null);
   }
 
   if (user) {
     return (
-      <Router>
-        <Switch>
-          <Route path="/despesas/:year-:month">
-            <DespesasPage user={user} onSignOut={signOut}></DespesasPage>
-          </Route>
-          <Redirect to={{ pathname: "/despesas/2020-06" }}></Redirect>
-        </Switch>
-      </Router>
+      <authContext.Provider value={{ user, onSignOut }}>
+        <Router>
+          <Switch>
+            <Route path="/despesas/:year-:month">
+              <DespesasPage />
+            </Route>
+            <Redirect to={{ pathname: "/despesas/2020-06" }}></Redirect>
+          </Switch>
+        </Router>
+      </authContext.Provider>
     );
   } else {
     return <LoginPage onSignIn={setUser} />;

@@ -27,7 +27,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box>
-          <Typography>{children}</Typography>
+          <Typography component="span">{children}</Typography>
         </Box>
       )}
     </div>
@@ -44,7 +44,6 @@ function a11yProps(index: any) {
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
   },
 }));
 
@@ -74,7 +73,7 @@ export default function DespesasTab(props: IDespesasTabProps) {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        Resumo
+        <DespesasTable despesas={despesas} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <DespesasTable despesas={despesas} />

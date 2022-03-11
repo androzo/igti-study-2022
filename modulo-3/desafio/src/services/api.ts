@@ -6,7 +6,7 @@ export interface IDespesa {
   dia: number;
 }
 export interface IUser {
-  name: string;
+  nome: string;
   email: string;
 }
 

@@ -1,14 +1,9 @@
 import { Box, Button } from "@material-ui/core";
-import { MouseEvent } from "react";
-import { IUser } from "../services/api";
+import { useContext } from "react";
+import { authContext } from "../authContext";
 
-interface IDespesasHeaderProps {
-  user: IUser;
-  onSignOut: () => void;
-}
-
-export default function DespesasHeader(props: IDespesasHeaderProps) {
-  const { user, onSignOut } = props;
+export default function DespesasHeaders() {
+  const { user, onSignOut } = useContext(authContext);
   return (
     <div>
       <Box
@@ -21,7 +16,9 @@ export default function DespesasHeader(props: IDespesasHeaderProps) {
           Despesas
         </Box>
         <Box p={1}>
-          Olá, {user.name}
+          <Box display="inline" m={1}>
+            Olá, {user.nome}
+          </Box>
           <Button variant="contained" color="primary" onClick={onSignOut}>
             Sair
           </Button>

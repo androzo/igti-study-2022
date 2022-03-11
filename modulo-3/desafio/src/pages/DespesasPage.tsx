@@ -1,23 +1,15 @@
 import Container from "@material-ui/core/Container";
 import { useEffect, useState } from "react";
-import { getDespesasEndpoint, IDespesa, IUser } from "../services/api";
+import { getDespesasEndpoint, IDespesa } from "../services/api";
 import { useParams } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import DespesasTable from "../components/DespesasTable";
 import DespesasSelect from "../components/DespesasSelect";
 import { Link } from "react-router-dom";
 import DespesasHeader from "../components/DespesasHeader";
 import DespesasTab from "../components/DespesasTab";
-import { Box } from "@material-ui/core";
 
-interface IDespesasPageProps {
-  user: IUser;
-  onSignOut: () => void;
-}
-
-export default function DespesasPage(props: IDespesasPageProps) {
-  const { user, onSignOut } = props;
+export default function DespesasPage() {
   const params = useParams<{ year: string; month: string }>();
   const [despesas, setDespesas] = useState<IDespesa[]>([]);
   const [year, setYear] = useState(params.year);
@@ -69,7 +61,7 @@ export default function DespesasPage(props: IDespesasPageProps) {
   return (
     <div>
       <Container component="div" maxWidth="md">
-        <DespesasHeader user={user} onSignOut={onSignOut} />
+        <DespesasHeader />
       </Container>
       <Container component="div" maxWidth="md">
         <DespesasSelect

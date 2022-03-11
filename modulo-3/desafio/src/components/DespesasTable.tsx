@@ -31,18 +31,10 @@ export default function DespesasTable(props: { despesas: IDespesa[] }) {
         >
           <TableHead>
             <TableRow>
-              <TableCell>
-                <strong>Despesas</strong>
-              </TableCell>
-              <TableCell align="center">
-                <strong>Categoria</strong>
-              </TableCell>
-              <TableCell align="center">
-                <strong>Dia</strong>
-              </TableCell>
-              <TableCell align="right">
-                <strong>Valor</strong>
-              </TableCell>
+              <TableCell>Despesas</TableCell>
+              <TableCell align="center">Categoria</TableCell>
+              <TableCell align="center">Dia</TableCell>
+              <TableCell align="right">Valor</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
