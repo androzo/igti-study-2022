@@ -6,21 +6,34 @@ import DespesasSelect from "../components/DespesasSelect";
 import { Link } from "react-router-dom";
 import DespesasHeader from "../components/DespesasHeader";
 import DespesasTab from "../components/DespesasTab";
-import { useDespesasPageState } from "../state/DespesasPageState";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { popError } from "../utils/utils";
+import { getDespesasEndpoint } from "../services/api";
+import { useEffect } from "react";
+import { load, refreshMonth, refreshYear } from "../slices/despesaSlice";
 
 export default function DespesasPage() {
-  const params = useParams<{ year: string; month: string }>();
+  const { despesas, categories, totalExpenses, year, month } = useAppSelector(
+    (state) => state.despesas
+  );
+  const dispatch = useAppDispatch();
 
-  const { despesas, categories, totalExpenses, year, month, dispatch } =
-    useDespesasPageState(params.year, params.month);
+  useEffect(() => {
+    getDespesasEndpoint(year, month).then((response) => {
+      dispatch(load(response));
+      if (response.length === 0) {
+        popError();
+      }
+    });
+  }, [month, year]);
 
   const onYearChange = (year: string) => {
-    dispatch({ type: "refreshYear", payload: { year } });
+    dispatch(refreshYear(year));
     return <Link to={`${year}-${month}`}></Link>;
   };
 
   const onMonthChange = (month: string) => {
-    dispatch({ type: "refreshMonth", payload: { month } });
+    dispatch(refreshMonth(month));
     return <Link to={`${year}-${month}`}></Link>;
   };
   return (
