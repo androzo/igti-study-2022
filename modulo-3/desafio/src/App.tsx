@@ -7,63 +7,35 @@ import {
   Redirect,
 } from "react-router-dom";
 import { getUserEndpoint, IUser, signOutEndpoint } from "./services/api";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { authContext } from "./authContext";
 import LoginPage from "./pages/LoginPage";
 
-function App() {
-  const [user, setUser] = useState<IUser | null>(null);
+class App extends React.Component<{}, { user: IUser | null }> {
+  setUser: (user: IUser) => void;
+  onSignOut: () => void;
 
-  useEffect(() => {
-    getUserEndpoint().then(setUser, () => setUser(null));
-  }, []);
-
-  function onSignOut() {
-    signOutEndpoint();
-    setUser(null);
-  }
-
-  if (user) {
-    return (
-      <authContext.Provider value={{ user, onSignOut }}>
-        <Router>
-          <Switch>
-            <Route path="/despesas/:year-:month">
-              <DespesasPage />
-            </Route>
-            <Redirect to={{ pathname: "/despesas/2020-06" }}></Redirect>
-          </Switch>
-        </Router>
-      </authContext.Provider>
-    );
-  } else {
-    return <LoginPage onSignIn={setUser} />;
-  }
-}
-
-class App2 extends React.Component<{}, { user: IUser | null }> {
   constructor(props: {}) {
     super(props);
     this.state = {
       user: null,
     };
-  }
 
-  render() {
-    const { user } = this.state;
-
-    const setUser = (user: IUser) => {
+    this.setUser = (user: IUser) => {
       this.setState({ user });
     };
 
-    const onSignOut = () => {
+    this.onSignOut = () => {
       signOutEndpoint();
       this.setState({ user: null });
     };
+  }
+  render() {
+    const { user } = this.state;
 
     if (user) {
       return (
-        <authContext.Provider value={{ user, onSignOut }}>
+        <authContext.Provider value={{ user, onSignOut: this.onSignOut }}>
           <Router>
             <Switch>
               <Route path="/despesas/:year-:month">
@@ -75,15 +47,12 @@ class App2 extends React.Component<{}, { user: IUser | null }> {
         </authContext.Provider>
       );
     } else {
-      return <LoginPage onSignIn={setUser} />;
+      return <LoginPage onSignIn={this.setUser} />;
     }
   }
 
   componentDidMount() {
-    getUserEndpoint().then(
-      (response) => this.setState({ user: response }),
-      () => this.setState({ user: null })
-    );
+    getUserEndpoint().then(this.setUser, this.onSignOut);
   }
 }
 
