@@ -1,6 +1,10 @@
 import Container from "@material-ui/core/Container";
-import { useEffect, useReducer, useState } from "react";
-import { getDespesasEndpoint, IDespesa } from "../services/api";
+import { useEffect, useReducer } from "react";
+import {
+  getDespesasEndpoint,
+  IDespesa,
+  ICategoryDespesa,
+} from "../services/api";
 import { useParams } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,24 +31,55 @@ function parseAndSortDespesas(despesas: IDespesa[]) {
   return despesas.sort((a, b) => a.dia - b.dia);
 }
 
-function popError() {
-  return toast.error(
-    "Nenhuma despesa encontrada para esta data! Tente outra data",
-    {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    }
-  );
+function parseCategories(despesas: IDespesa[]) {
+  const categorizedDespesas: ICategoryDespesa[] = [];
+  const categories = [
+    ...Array.from(new Set(despesas.map((despesa) => despesa.categoria))),
+  ];
+
+  for (let i = 0; i < categories.length; i++) {
+    categorizedDespesas.push({ id: i, name: categories[i], total: 0 });
+  }
+
+  despesas.map((despesa) => {
+    categorizedDespesas.map((categories) => {
+      if (despesa.categoria === categories.name) {
+        categories.total = categories.total + despesa.valor;
+      }
+      return categories;
+    });
+    return despesa;
+  });
+
+  return categorizedDespesas.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function reducer(
+  state: IDespesasPageState,
+  action: IDespesasPageAction
+): IDespesasPageState {
+  switch (action.type) {
+    case "load":
+      return {
+        ...state,
+        despesas: parseAndSortDespesas(action.payload.despesas),
+        totalExpenses: sumDespesas(action.payload.despesas),
+        categories: parseCategories(action.payload.despesas),
+      };
+    case "refreshYear":
+      return { ...state, year: action.payload.year };
+    case "refreshMonth":
+      return { ...state, month: action.payload.month };
+
+    default:
+      return state;
+  }
 }
 
 interface IDespesasPageState {
   despesas: IDespesa[];
   totalExpenses: number;
+  categories: ICategoryDespesa[];
   year: string;
   month: string;
 }
@@ -69,38 +104,18 @@ type IDespesasPageAction =
       };
     };
 
-function reducer(
-  state: IDespesasPageState,
-  action: IDespesasPageAction
-): IDespesasPageState {
-  switch (action.type) {
-    case "load":
-      return {
-        ...state,
-        despesas: parseAndSortDespesas(action.payload.despesas),
-        totalExpenses: sumDespesas(action.payload.despesas),
-      };
-    case "refreshYear":
-      return { ...state, year: action.payload.year };
-    case "refreshMonth":
-      return { ...state, month: action.payload.month };
-
-    default:
-      return state;
-  }
-}
-
 export default function DespesasPage() {
   const params = useParams<{ year: string; month: string }>();
 
   const [state, dispatch] = useReducer(reducer, {
     despesas: [],
     totalExpenses: 0,
+    categories: [],
     year: params.year,
     month: params.month,
   });
 
-  const { despesas, totalExpenses, year, month } = state;
+  const { despesas, categories, totalExpenses, year, month } = state;
 
   const onYearChange = (year: string) => {
     dispatch({ type: "refreshYear", payload: { year } });
@@ -136,7 +151,7 @@ export default function DespesasPage() {
         />
       </Container>
       <Container component="div" maxWidth="md">
-        <DespesasTab despesas={despesas} />
+        <DespesasTab despesas={despesas} categories={categories} />
       </Container>
       <ToastContainer
         position="top-right"
@@ -150,5 +165,20 @@ export default function DespesasPage() {
         pauseOnHover
       />
     </div>
+  );
+}
+
+function popError() {
+  return toast.error(
+    "Nenhuma despesa encontrada para esta data! Tente outra data",
+    {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    }
   );
 }

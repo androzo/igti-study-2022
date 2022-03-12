@@ -10,6 +10,12 @@ export interface IUser {
   email: string;
 }
 
+export interface ICategoryDespesa {
+  id: number;
+  name: string;
+  total: number;
+}
+
 export function getUserEndpoint(): Promise<IUser> {
   return fetch(`http://localhost:3001/sessao/usuario`, {
     credentials: "include",

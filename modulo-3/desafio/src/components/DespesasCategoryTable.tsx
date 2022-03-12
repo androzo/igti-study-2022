@@ -1,4 +1,3 @@
-import { IDespesa } from "../services/api";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -9,6 +8,12 @@ import Paper from "@material-ui/core/Paper";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
 
+import { ICategoryDespesa } from "../services/api";
+
+interface IDespesasCategoryTableProps {
+  categories: ICategoryDespesa[];
+}
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     table: {
@@ -17,8 +22,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function DespesasTable(props: { despesas: IDespesa[] }) {
-  const { despesas } = props;
+export default function DespesasCategoryTable(
+  props: IDespesasCategoryTableProps
+) {
+  const { categories } = props;
+
   const classes = useStyles();
 
   return (
@@ -32,13 +40,7 @@ export default function DespesasTable(props: { despesas: IDespesa[] }) {
           <TableHead>
             <TableRow>
               <TableCell>
-                <strong>Despesas</strong>
-              </TableCell>
-              <TableCell align="center">
                 <strong>Categoria</strong>
-              </TableCell>
-              <TableCell align="center">
-                <strong>Dia</strong>
               </TableCell>
               <TableCell align="right">
                 <strong>Valor</strong>
@@ -46,15 +48,13 @@ export default function DespesasTable(props: { despesas: IDespesa[] }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {despesas?.map((despesa) => (
-              <TableRow key={despesa.id}>
+            {categories?.map((category) => (
+              <TableRow key={category.id}>
                 <TableCell component="th" scope="row">
-                  {despesa.descricao}
+                  {category.name}
                 </TableCell>
-                <TableCell align="center">{despesa.categoria}</TableCell>
-                <TableCell align="center">{despesa.dia}</TableCell>
                 <TableCell align="right">
-                  {despesa.valor.toLocaleString("pt-br", {
+                  {category.total.toLocaleString("pt-br", {
                     style: "currency",
                     currency: "BRL",
                   })}

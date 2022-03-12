@@ -6,7 +6,8 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import DespesasTable from "./DespesasTable";
-import { IDespesa } from "../services/api";
+import { IDespesa, ICategoryDespesa } from "../services/api";
+import DespesasCategoryTable from "./DespesasCategoryTable";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -49,10 +50,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface IDespesasTabProps {
   despesas: IDespesa[];
+  categories: ICategoryDespesa[];
 }
 
 export default function DespesasTab(props: IDespesasTabProps) {
-  const { despesas } = props;
+  const { despesas, categories } = props;
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -67,13 +69,14 @@ export default function DespesasTab(props: IDespesasTabProps) {
           value={value}
           onChange={handleChange}
           aria-label="simple tabs example"
+          centered
         >
           <Tab label="Resumo" {...a11yProps(0)} />
           <Tab label="Detalhes" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <DespesasTable despesas={despesas} />
+        <DespesasCategoryTable categories={categories} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <DespesasTable despesas={despesas} />
