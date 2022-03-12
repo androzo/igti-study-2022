@@ -1,9 +1,8 @@
 import { Box, Button } from "@material-ui/core";
-import { useContext } from "react";
-import { authContext } from "../authContext";
+import { useAuthContext } from "../authContext";
 
 export default function DespesasHeaders() {
-  const { user, onSignOut } = useContext(authContext);
+  const { user, onSignOut } = useAuthContext();
   return (
     <div>
       <Box
