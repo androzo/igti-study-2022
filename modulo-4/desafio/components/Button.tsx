@@ -1,4 +1,4 @@
-import { StyledButton } from "./styles";
+import { StyledButton } from "@/styles/styles";
 
 interface ButtonProps {
   name: string;

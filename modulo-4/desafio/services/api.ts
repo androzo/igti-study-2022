@@ -18,9 +18,11 @@ export interface IExchange {
 }
 
 export const getDataFromApi = async (pageIndex: number) => {
-  const data = await fetch(
+  return await fetch(
     `${COINGECKO_BASE_URL}?per_page=${ITEMS_PER_PAGE}&page=${pageIndex}`
   ).then((resp) => resp.json());
+};
 
-  return data;
+export const getAllDataFromApi = async () => {
+  return await fetch(COINGECKO_BASE_URL).then((resp) => resp.json());
 };
