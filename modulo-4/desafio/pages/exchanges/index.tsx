@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import { useEffect, useState } from "react";
 import { getDataFromApi, IExchange } from "../../services/api";
-import { StyledBox, StyledHeader, StyledHeaderBox } from "../../styles/styles";
+import { StyledBox, StyledHeader, StyledTopBody } from "../../styles/styles";
 import TextField from "@material-ui/core/TextField";
 import { Box } from "@material-ui/core";
 import styled from "styled-components";
@@ -51,26 +51,23 @@ const Home = () => {
   return (
     <div>
       <StyledHeader>Desafio Modulo 4</StyledHeader>
-      <span>
+      <StyledTopBody>
         <Button name="Anterior" onClick={AnteriorOnClick} />
-      </span>
-      <StyledHeaderBox>
-        <StyledTextField
-          id="standard-basic"
-          label="Search here"
-          value={searchText}
-          onChange={(evt) => setSearchText(evt.target.value)}
-        />
-      </StyledHeaderBox>
-      <span>
-        <Button name="Próximo" onClick={ProximoOnClick} />
-      </span>
 
-      <ul>
-        {filteredData?.map((item) => (
-          <Card key={item.id} card={item} />
-        ))}
-      </ul>
+        <StyledBox>
+          <StyledTextField
+            id="standard-basic"
+            label="Search here"
+            value={searchText}
+            onChange={(evt) => setSearchText(evt.target.value)}
+          />
+        </StyledBox>
+
+        <Button name="Próximo" onClick={ProximoOnClick} />
+      </StyledTopBody>
+      {filteredData?.map((item) => (
+        <Card key={item.id} card={item} />
+      ))}
     </div>
   );
 };

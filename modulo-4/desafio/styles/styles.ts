@@ -1,6 +1,10 @@
 import styled from "styled-components";
+import ImageWithFallback from "../components/CustomImage";
 
 export const StyledHeader = styled.h1`
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 500;
+  color: black;
   text-align: center;
 `;
 
@@ -8,7 +12,9 @@ export const StyledBox = styled.div`
   display: inline-block;
 `;
 
-export const StyledHeaderBox = styled.div`
+export const StyledCustomImage = styled.div``;
+
+export const StyledTopBody = styled.div`
   display: flex;
   justify-content: space-between;
 `;

@@ -2,7 +2,7 @@ import { StyledBox, StyledDivRow, StyledDivTable } from "@/styles/styles";
 import React from "react";
 import { IExchange } from "services/api";
 
-import CustomImage from "./CustomImage";
+import ImageWithFallback from "../components/ImageWithFallback";
 
 interface ICardProps {
   card: IExchange;
@@ -13,7 +13,7 @@ export default function Card(props: ICardProps) {
   return (
     <StyledBox>
       <StyledDivTable>
-        <CustomImage
+        <ImageWithFallback
           key={card.id}
           src={card.image}
           fallbackSrc={"/placeholder.png"}
