@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import ImageWithFallback from "../components/CustomImage";
 
 export const StyledHeader = styled.h1`
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;

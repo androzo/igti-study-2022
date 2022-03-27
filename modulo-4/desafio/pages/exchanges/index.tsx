@@ -7,16 +7,6 @@ import { Box } from "@material-ui/core";
 import styled from "styled-components";
 import Card from "../../components/Card";
 
-// export async function getServerSideProps() {
-//   const data = await fetch(
-//     `${COINGECKO_BASE_URL}?per_page=${ITEMS_PER_PAGE}&page=1`
-//   ).then((resp) => resp.json());
-
-//   return {
-//     props: { data },
-//   };
-// }
-
 const StyledTextField = styled(TextField)`
   margin-left: 10px;
 `;
@@ -48,6 +38,8 @@ const Home = () => {
     data.length === 100 ? setPageIndex(pageIndex + 1) : {};
   };
 
+  const filteredMessage = `Mostrando ${filteredData.length} de ${data.length} resultados`;
+
   return (
     <div>
       <StyledHeader>Desafio Modulo 4</StyledHeader>
@@ -62,9 +54,9 @@ const Home = () => {
             onChange={(evt) => setSearchText(evt.target.value)}
           />
         </StyledBox>
-
         <Button name="Próximo" onClick={ProximoOnClick} />
       </StyledTopBody>
+      <div>{searchText === "" ? "" : filteredMessage}</div>
       {filteredData?.map((item) => (
         <Card key={item.id} card={item} />
       ))}
