@@ -3,6 +3,8 @@ import Tabela from "./components/Tabela";
 import { getData } from "./services/api";
 import { IRodada, IRodadaList } from "./types";
 import _ from "lodash";
+import Header from "./components/Header";
+import SelectBox from "./components/Select";
 
 function App() {
   const [year, setYear] = useState(2005);
@@ -15,7 +17,8 @@ function App() {
 
   return (
     <div className="App">
-      Header
+      <Header />
+      <SelectBox />
       <Tabela last_round={_.last(data)} />
     </div>
   );
