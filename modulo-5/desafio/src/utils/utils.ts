@@ -24,6 +24,7 @@ const parseRanking = (scores: ITeamScore[]) => {
 };
 
 export const extractScores = (obj: IRodadaList | undefined) => {
+  console.log(obj);
   let scores: ITeamScore[] = [];
 
   obj?.partidas.map((partida: IRodada) => {

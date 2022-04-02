@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Tabela from "./components/Tabela";
 import { getData } from "./services/api";
-import { IRodadaList, ITeamScore } from "./types";
+import { ITeamScore } from "./types";
 import _ from "lodash";
 import Header from "./components/Header";
 import SelectBox from "./components/Select";
