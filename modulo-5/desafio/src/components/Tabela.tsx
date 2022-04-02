@@ -1,4 +1,4 @@
-import { IRodadaList } from "../types";
+import { IRodadaList, ITeamScore } from "../types";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,56 +8,46 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 interface ITabelaProps {
-  last_round: IRodadaList | undefined;
+  scores: ITeamScore[] | undefined;
 }
-
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
 
 export default function Tabela(props: ITabelaProps) {
-  const { last_round } = props;
-  console.log(last_round?.partidas.length);
+  const { scores } = props;
+  console.log(scores);
 
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>Posição</TableCell>
+            <TableCell align="right">Time</TableCell>
+            <TableCell align="right">P</TableCell>
+            <TableCell align="right">V</TableCell>
+            <TableCell align="right">E</TableCell>
+            <TableCell align="right">D</TableCell>
+            <TableCell align="right">GP</TableCell>
+            <TableCell align="right">GC</TableCell>
+            <TableCell align="right">`</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {scores?.map((score) => (
             <TableRow
-              key={row.name}
+              key={score.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}
+                {score.ranking}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{score.team_name}</TableCell>
+              <TableCell align="right">{score.total_score}</TableCell>
+              <TableCell align="right">{score.wins}</TableCell>
+              <TableCell align="right">{score.draws}</TableCell>
+              <TableCell align="right">{score.loses}</TableCell>
+              <TableCell align="right">{score.goals_scored}</TableCell>
+              <TableCell align="right">{score.goals_taken}</TableCell>
+              <TableCell align="right">{score.goals_balance}</TableCell>
             </TableRow>
           ))}
         </TableBody>
