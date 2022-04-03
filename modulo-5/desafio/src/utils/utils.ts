@@ -1,7 +1,7 @@
 import { uniqueId } from "lodash";
 import { IRodada, IRodadaList, ITeamScore } from "../types";
 
-const newTeamScore = (): ITeamScore => {
+export const newTeamScore = (): ITeamScore => {
   return {
     id: uniqueId(),
     ranking: 0,
@@ -16,7 +16,7 @@ const newTeamScore = (): ITeamScore => {
   };
 };
 
-const parseRanking = (scores: ITeamScore[]) => {
+export const parseRanking = (scores: ITeamScore[]) => {
   scores.sort((a, b) => b.total_score - a.total_score);
   return scores.map((score, index) => {
     score.ranking = index + 1;
