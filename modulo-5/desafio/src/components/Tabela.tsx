@@ -17,16 +17,15 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: theme.palette.grey[400],
     color: theme.palette.common.black,
     fontWeight: 600,
-    fontFamily: "Arial",
+    fontSize: 16,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
+    fontSize: 20,
   },
 }));
 
 export default function Tabela(props: ITabelaProps) {
   const { scores } = props;
-  console.log(scores);
 
   return (
     <Container maxWidth="md">
