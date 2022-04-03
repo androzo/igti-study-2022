@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "jest --watch",
+    "test": "jest ./tests",
     "test:ci": "jest --ci",
     "test:coverage": "jest --coverage"
   },
@@ -47,7 +47,8 @@
     ],
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx,js,jsx}",
-      "!src/**/.*d.ts"
+      "!src/**/.*d.ts",
+      "!src/main.tsx"
     ],
     "moduleNameMapper": {
       "\\.(css|less)$": "identity-obj-proxy"
