@@ -26,6 +26,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 export default function Tabela(props: ITabelaProps) {
   const { scores } = props;
+  console.log(scores);
 
   return (
     <Container maxWidth="md">
