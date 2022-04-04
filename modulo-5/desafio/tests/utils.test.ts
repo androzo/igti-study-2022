@@ -2,7 +2,7 @@ import { IRodadaList, ITeamScore } from "src/types";
 import { extractScores, newTeamScore, parseRanking } from "../src/utils/utils";
 import { MockedRawData } from "../src/services/mock";
 
-test("should create a empty team score", () => {
+it("should create a empty team score", () => {
   let score = newTeamScore();
 
   expect(score.ranking).toBe(0);
@@ -16,7 +16,7 @@ test("should create a empty team score", () => {
   expect(score.goals_balance).toBe(0);
 });
 
-test("should parse rankings", () => {
+it("should parse rankings", () => {
   let scores: ITeamScore[] = [newTeamScore(), newTeamScore(), newTeamScore()];
   // set mocked scores unsorted
   scores[0].total_score = 50;
@@ -31,7 +31,7 @@ test("should parse rankings", () => {
   expect(scores[2].ranking).toBe(3);
 });
 
-test("should extract scores", () => {
+it("should extract scores", () => {
   let rawScores: IRodadaList = MockedRawData;
   let extractedScores = extractScores(rawScores);
 
