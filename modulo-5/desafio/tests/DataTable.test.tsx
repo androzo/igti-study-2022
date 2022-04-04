@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import _ from "lodash";
-import Tabela from "../src/components/Tabela";
+import DataTable from "../src/components/DataTable";
 import { MockedData } from "../src/services/mock";
 
-test("render Tabela", async () => {
-  render(<Tabela scores={MockedData} />);
+test("render DataTable", async () => {
+  render(<DataTable scores={MockedData} />);
 
   expect(screen.getByRole("table")).toHaveTextContent("Cruzeiro");
 });

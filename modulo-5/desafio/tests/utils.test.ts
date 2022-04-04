@@ -1,5 +1,6 @@
-import { ITeamScore } from "src/types";
-import { newTeamScore, parseRanking } from "../src/utils/utils";
+import { IRodadaList, ITeamScore } from "src/types";
+import { extractScores, newTeamScore, parseRanking } from "../src/utils/utils";
+import { MockedRawData } from "../src/services/mock";
 
 test("should create a empty team score", () => {
   let score = newTeamScore();
@@ -17,8 +18,37 @@ test("should create a empty team score", () => {
 
 test("should parse rankings", () => {
   let scores: ITeamScore[] = [newTeamScore(), newTeamScore(), newTeamScore()];
-  let parsedScores = parseRanking(scores);
-  console.log(parsedScores);
+  // set mocked scores unsorted
+  scores[0].total_score = 50;
+  scores[1].total_score = 10;
+  scores[2].total_score = 100;
+
+  parseRanking(scores);
 
   expect(parseRanking).toBeCalled;
+  expect(scores[0].ranking).toBe(1);
+  expect(scores[1].ranking).toBe(2);
+  expect(scores[2].ranking).toBe(3);
+});
+
+test("should extract scores", () => {
+  let rawScores: IRodadaList = MockedRawData;
+  let extractedScores = extractScores(rawScores);
+
+  expect(extractScores).toBeCalled;
+  expect(Array.isArray(extractedScores)).toBe(true);
+  expect(extractedScores[0].id).toBeDefined();
+  expect(extractedScores[0].id).toBeDefined();
+
+  extractedScores.map((score) => {
+    expect(score.team_name).toBeDefined();
+    expect(score.total_score).toBeDefined();
+    expect(score.goals_scored).toBeDefined();
+    expect(score.goals_taken).toBeDefined();
+    expect(score.goals_balance).toBeDefined();
+    expect(score.total_score).toBeDefined();
+    expect(score.draws).toBeDefined();
+    expect(score.loses).toBeDefined();
+    expect(score.wins).toBeDefined();
+  });
 });

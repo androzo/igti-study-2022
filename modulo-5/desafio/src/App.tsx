@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import Tabela from "./components/Tabela";
+import DataTable from "./components/DataTable";
 import { getData } from "./services/api";
 import { ITeamScore } from "./types";
 import _ from "lodash";
 import Header from "./components/Header";
-import SelectBox from "./components/Select";
+import Input from "./components/Input";
 import { extractScores } from "./utils/utils";
-import { SelectChangeEvent } from "@mui/material";
 
 function App() {
   const [year, setYear] = useState("2003");
@@ -17,15 +16,15 @@ function App() {
     );
   }, [year]);
 
-  const handleYearChange = (event: SelectChangeEvent) => {
+  const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setYear(event.target.value as string);
   };
 
   return (
     <div className="App">
       <Header />
-      <SelectBox year={year} onChange={handleYearChange} />
-      <Tabela scores={data} />
+      <Input year={year} onChange={handleYearChange} />
+      <DataTable scores={data} />
     </div>
   );
 }
