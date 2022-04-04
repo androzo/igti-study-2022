@@ -4,28 +4,31 @@ import * as api from "../src/services/api";
 import App from "../src/App";
 import axios from "axios";
 import { MockedRawDataList } from "../src/services/mock";
+import { act } from "react-dom/test-utils";
 
 const setReturnGetData = (mock: any) => {
   axios.get = jest.fn((): any =>
     Promise.resolve({
-      data: () => Promise.resolve(mock),
+      data: mock,
     })
   );
 };
 
 describe("render application", () => {
   beforeAll(() => {
-    setReturnGetData(MockedRawDataList);
+    act(() => {
+      setReturnGetData(MockedRawDataList);
+    });
   });
 
   it("should render App", async () => {
     render(<App />);
   });
 
-  // it("should render API data", async () => {
-  //   render(<App />);
-  //   await screen.findByText("Vitória");
-  // });
+  it("should render API data", async () => {
+    render(<App />);
+    await screen.findByText("Vitória");
+  });
 
   it("should run useState and useEffect", () => {
     const useEffectSpy = jest.spyOn(React, "useEffect");
