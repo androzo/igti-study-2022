@@ -49,7 +49,9 @@
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx,js,jsx}",
       "!src/**/.*d.ts",
-      "!src/main.tsx"
+      "!src/main.tsx",
+      "!src/types.ts",
+      "!src/vite-env.d.ts"
     ],
     "moduleNameMapper": {
       "\\.(css|less)$": "identity-obj-proxy"

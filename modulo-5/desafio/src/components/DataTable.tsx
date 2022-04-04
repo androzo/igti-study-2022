@@ -1,4 +1,4 @@
-import { IRodadaList, ITeamScore } from "../types";
+import { ITeamScore } from "../types";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -7,12 +7,10 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Container } from "@mui/material";
-import { styled } from "@mui/material/styles";
-interface ITabelaProps {
-  scores: ITeamScore[] | undefined;
-}
+import { styled as StyledMUI } from "@mui/material/styles";
+import styled from "@emotion/styled";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = StyledMUI(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.grey[400],
     color: theme.palette.common.black,
@@ -24,12 +22,34 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
+const StyledTableContainer = StyledMUI(TableContainer)`
+  box-shadow: 5px 5px 2px grey;
+`;
+
+const StyledTableRow = StyledMUI(TableRow)`
+  &:nth-of-type(odd) {
+    background-color: #e2dddd;
+  }
+
+  &:nth-of-type(even) {
+    background-color: #eeecec;
+  }
+`;
+
+const StyledImg = styled.img`
+  border-radius: 70%;
+`;
+
+interface ITabelaProps {
+  scores: ITeamScore[] | undefined;
+}
+
 export default function Tabela(props: ITabelaProps) {
   const { scores } = props;
 
   return (
     <Container maxWidth="md">
-      <TableContainer component={Paper}>
+      <StyledTableContainer component={Paper}>
         <Table size="small" aria-label="a dense table">
           <TableHead>
             <TableRow>
@@ -48,7 +68,7 @@ export default function Tabela(props: ITabelaProps) {
           </TableHead>
           <TableBody>
             {scores?.map((score) => (
-              <TableRow
+              <StyledTableRow
                 key={score.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
@@ -57,7 +77,7 @@ export default function Tabela(props: ITabelaProps) {
                 </TableCell>
 
                 <TableCell align="center">
-                  <img
+                  <StyledImg
                     src={`/img/${score.team_name
                       .normalize("NFD")
                       .replace(/[\u0300-\u036f]/g, "")
@@ -75,11 +95,11 @@ export default function Tabela(props: ITabelaProps) {
                 <TableCell align="center">{score.goals_scored}</TableCell>
                 <TableCell align="center">{score.goals_taken}</TableCell>
                 <TableCell align="center">{score.goals_balance}</TableCell>
-              </TableRow>
+              </StyledTableRow>
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </StyledTableContainer>
     </Container>
   );
 }

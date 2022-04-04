@@ -18,32 +18,68 @@ const YEARS = [
   "2015",
 ];
 
-const StyledBox = styled(Box)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-`;
-
 interface ISelectProps {
   year: string;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
+
+const StyledBox = styled(Box)`
+  text-align: center;
+  display: block;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  font-size: medium;
+  font-family: sans-serif;
+  font-weight: 500;
+`;
+
+const StyledSelect = styled.select`
+  position: relative;
+  font-family: Arial;
+  font-size: medium;
+  background-color: lightgrey;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 5px 5px 2px grey;
+  padding: 5px;
+
+  :hover {
+    border: none;
+    border-radius: 20px;
+  }
+  :selection {
+    border: none;
+  }
+`;
+
+const StyledH1 = styled.h1`
+  text-shadow: 1px 1px 2px grey;
+  text-align: center;
+  display: block;
+  font-size: x-large;
+  font-family: sans-serif;
+  font-weight: 500;
+`;
 
 export default function SelectBox(props: ISelectProps) {
   const { year, onChange } = props;
 
   return (
     <StyledBox>
-      <label htmlFor="year-select">Ano:</label>
+      <StyledH1>Campeonato Brasileiro de {year}</StyledH1>
 
-      <select name="year-select" id="year-select" onChange={onChange}>
-        {YEARS.map((year) => (
-          <option key={year} value={year}>
-            {year}
-          </option>
-        ))}
-      </select>
+      <StyledBox>
+        <label htmlFor="year-select">Selecione o ano: </label>
+
+        <StyledSelect name="year-select" id="year-select" onChange={onChange}>
+          {YEARS.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </StyledSelect>
+      </StyledBox>
     </StyledBox>
   );
 }
