@@ -9,6 +9,7 @@ import { extractScores } from "./utils/utils";
 import styled from "@emotion/styled";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import { textAlign } from "@mui/system";
 
 const StyledTaylorHawkins = styled.div`
   display: flex;
@@ -31,26 +32,17 @@ function App() {
   };
 
   const loading = (
-    <StyledTaylorHawkins>
-      <Box sx={{ display: "inline" }}>
-        <CircularProgress />
-      </Box>
-      We are loading your application and a beautiful Taylor will wait with you!
-      <Box sx={{ display: "inline" }}>
-        <img src={`img/hawkins.jpg`} />
-      </Box>
-    </StyledTaylorHawkins>
+    <Box sx={{ display: "block", justifyItems: "center", textAlign: "center" }}>
+      Loading
+      <CircularProgress />
+    </Box>
   );
-
-  if (!data) {
-    return loading;
-  }
 
   return (
     <div className="App">
       <Header />
       <Input year={year} onChange={handleYearChange} />
-      <DataTable scores={data} />
+      {data ? <DataTable scores={data} /> : loading}
     </div>
   );
 }
