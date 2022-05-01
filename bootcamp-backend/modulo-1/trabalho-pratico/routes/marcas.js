@@ -32,8 +32,6 @@ router.get("/maisModelos", async (req, res, next) => {
       obj = `${obj} - ${total}`;
       return obj;
     });
-
-    logger.info(JSON.stringify(result));
     res.send(JSON.stringify(result));
     logger.info("GET /maisModelos");
   } catch (error) {
@@ -49,8 +47,6 @@ router.get("/menosModelos", async (req, res, next) => {
       obj = `${obj} - ${total}`;
       return obj;
     });
-
-    logger.info(JSON.stringify(result));
     res.send(JSON.stringify(result));
     logger.info("GET /menosModelos");
   } catch (error) {
@@ -110,7 +106,6 @@ router.post("/listaModelos", async (req, res, next) => {
   }
 });
 
-// Tratamentos de erro
 router.use("", (error, req, res, next) => {
   logger.error(`${req.method} ${req.baseUrl} => ${error.message}`);
   res.status(400).send({ error: error.message });
