@@ -1,5 +1,0 @@
-(x) Criar componentes para Main e Header
-(x) Criar Page para Investments (core do app)
-(x) Trazer os dados do arquivo investments.json
-(x) Criar componentes Investments e Investment utilizando composition
-(x) Formatar os dados necessários nos componentes

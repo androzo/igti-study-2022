@@ -1,0 +1,19 @@
+{
+  "name": "trabalho-pratico",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.18.1",
+    "lodash": "^4.17.21",
+    "nodemon": "^2.0.15",
+    "winston": "^3.7.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
