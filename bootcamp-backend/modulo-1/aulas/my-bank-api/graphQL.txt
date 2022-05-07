@@ -1,0 +1,35 @@
+ {
+   getAccount(id: 11){
+     id
+     name
+     balance
+   }
+   getAccounts{
+     id
+     name
+     balance
+   }
+ }
+
+ mutation {
+   createAccount(account:{
+       name: "Andre Buka",
+       balance: 1010
+     }){
+     id
+     name
+     balance
+   }
+  
+   updateAccount(account:{
+     id: 11
+     name: "Androzo",
+     balance: 11111
+   }){
+     id
+     name
+     balance
+   }
+  
+   deleteAccount(id:14)
+ }
