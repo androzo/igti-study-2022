@@ -32,6 +32,9 @@ async function getOrdersSumByName(name) {
 async function getOrdersSumByProduct(name) {
   return await OrderRepository.getOrdersSumByProduct(name);
 }
+async function getMostOrderedProducts() {
+  return await OrderRepository.getMostOrderedProducts();
+}
 
 export default {
   createOrder,
@@ -42,4 +45,5 @@ export default {
   updateOrderStatus,
   getOrdersSumByName,
   getOrdersSumByProduct,
+  getMostOrderedProducts,
 };

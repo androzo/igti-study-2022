@@ -111,6 +111,15 @@ async function getOrdersSumByProduct(req, res, next) {
   }
 }
 
+async function getMostOrderedProducts(req, res, next) {
+  try {
+    res.send(await OrderService.getMostOrderedProducts());
+    logger.info(`GET /getMostOrderedProducts`);
+  } catch (error) {
+    next(error);
+  }
+}
+
 export default {
   createOrder,
   getOrders,
@@ -120,4 +129,5 @@ export default {
   updateOrderStatus,
   getOrdersSumByName,
   getOrdersSumByProduct,
+  getMostOrderedProducts,
 };

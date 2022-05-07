@@ -10,6 +10,7 @@ router.put("/", OrderController.updateOrder);
 router.patch("/updateStatus", OrderController.updateOrderStatus);
 router.post("/getOrdersByCustomer", OrderController.getOrdersSumByName);
 router.post("/getOrdersSumByProduct", OrderController.getOrdersSumByProduct);
+router.post("/getMostOrderedProducts", OrderController.getMostOrderedProducts);
 
 router.use("", (error, req, res, next) => {
   logger.error(`${req.method} ${req.baseUrl} => ${error.message}`);

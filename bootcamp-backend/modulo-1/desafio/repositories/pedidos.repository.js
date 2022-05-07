@@ -89,6 +89,19 @@ async function getOrdersSumByProduct(name) {
   return { name, total: _.sumBy(pedidos, "valor") };
 }
 
+async function getMostOrderedProducts() {
+  let data = await readOrders();
+  const pedidos = data.pedidos.filter((obj) => obj.entregue);
+  const list = [];
+  Object.entries(_.countBy(pedidos, "produto")).forEach((o) =>
+    list.push({ product: o[0], count: o[1] })
+  );
+  list.sort((a, b) => b.count - a.count);
+  return list.map((item) => {
+    return `${item.product} - ${item.count}`;
+  });
+}
+
 export default {
   getOrders,
   getOrder,
@@ -98,4 +111,5 @@ export default {
   updateOrderStatus,
   getOrdersSumByName,
   getOrdersSumByProduct,
+  getMostOrderedProducts,
 };
