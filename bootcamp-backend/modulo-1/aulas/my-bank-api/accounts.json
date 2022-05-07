@@ -1,0 +1,40 @@
+{
+  "nextId": 11,
+  "accounts": [
+    {
+      "id": 3,
+      "name": "Andersen Buchmann",
+      "balance": 5555
+    },
+    {
+      "id": 4,
+      "name": "12ads",
+      "balance": 123
+    },
+    {
+      "id": 5,
+      "name": "aaa",
+      "balance": 123
+    },
+    {
+      "id": 6,
+      "name": "aaa",
+      "balance": 123
+    },
+    {
+      "id": 8,
+      "name": "aaa",
+      "balance": 123
+    },
+    {
+      "id": 9,
+      "name": "asdas",
+      "balance": 123
+    },
+    {
+      "id": 10,
+      "name": "asdas",
+      "balance": 123
+    }
+  ]
+}
