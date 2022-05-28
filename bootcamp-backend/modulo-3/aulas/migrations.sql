@@ -23,7 +23,6 @@ CREATE TABLE products (
     description VARCHAR NOT NULL,
     value NUMERIC NOT NULL,
     stock INT NOT NULL,
-    address INT NOT NULL,
     CONSTRAINT fk_suppliers FOREIGN KEY (supplier_id) REFERENCES suppliers (supplier_id)
 );
 
