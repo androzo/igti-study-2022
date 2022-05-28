@@ -1,8 +1,8 @@
 import express from "express";
-import clientsRouter from "./routes/client.route.js";
-import productsRouter from "./routes/product.route.js";
-import salesRouter from "./routes/sale.route.js";
-import suppliersRouter from "./routes/supplier.route.js";
+import clientsRouter from "./src/routes/client.route.js";
+import productsRouter from "./src/routes/product.route.js";
+import salesRouter from "./src/routes/sale.route.js";
+import suppliersRouter from "./src/routes/supplier.route.js";
 import cors from "cors";
 import winston from "winston";
 
