@@ -1,0 +1,14 @@
+{
+  "name": "petshop-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.16",
+    "pg": "^8.7.3",
+    "winston": "^3.7.2"
+  },
+  "type": "module"
+}
