@@ -16,7 +16,10 @@ async function deleteClient(id) {
 }
 
 async function updateClient(client) {
-  return ClientRepository.updateClient(client);
+  if (await getClient(client.client_id)) {
+    return ClientRepository.updateClient(client);
+  }
+  throw new Error("O client_id não existe");
 }
 
 export default {

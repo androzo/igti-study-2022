@@ -28,7 +28,12 @@ app.use("/sale", salesRouter);
 app.use("/supplier", suppliersRouter);
 app.use("/client", clientsRouter);
 app.use((err, req, res, next) => {
-  logger.error(`${req.method} ${req.base_url} ${err.message}`);
-  res.status(400).send({ error: err.message });
+  if (err.message) {
+    res.status(400).send({ error: err.message });
+    logger.error(`${req.method} ${req.base_url} ${err.message}`);
+  } else {
+    res.status(400).send({ errors: err });
+    logger.error(`${req.method} ${req.base_url} ${err.message}`);
+  }
 });
 app.listen(3000, () => console.log("API STARTED"));

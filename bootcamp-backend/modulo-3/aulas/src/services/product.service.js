@@ -21,7 +21,10 @@ async function deleteProduct(id) {
 }
 
 async function updateProduct(product) {
-  return ProductRepository.updateProduct(product);
+  if (await getProduct(product.product_id)) {
+    return ProductRepository.updateProduct(product);
+  }
+  throw new Error("Produto inexistente na base");
 }
 
 export default {
