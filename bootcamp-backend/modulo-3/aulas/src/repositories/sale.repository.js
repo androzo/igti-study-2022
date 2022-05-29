@@ -70,10 +70,25 @@ async function deleteSale(id) {
   }
 }
 
+async function getSaleByProductId(productId) {
+  const conn = await connect();
+  try {
+    const res = await conn.query("SELECT * FROM sales WHERE product_id = $1", [
+      productId,
+    ]);
+    return res.rows[0];
+  } catch (err) {
+    throw err;
+  } finally {
+    conn.release();
+  }
+}
+
 export default {
   insertSale,
   getSales,
   getSale,
   updateSale,
   deleteSale,
+  getSaleByProductId,
 };
