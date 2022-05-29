@@ -4,17 +4,26 @@ import ProductRepository from "../repositories/product.repository.js";
 
 async function createSale(sale) {
   let errors = [];
+  const product = await ProductRepository.getProduct(sale.product_id);
+
   if (!(await ClientRepository.getClient(sale.client_id))) {
     errors.push("O client_id informado não existe");
   }
-  if (!(await ProductRepository.getProduct(sale.product_id))) {
+  if (!product) {
     errors.push("O product_id informado não existe");
   }
-  if (errors) {
+  if (errors.length > 0) {
     throw errors;
   }
 
-  return await SaleRepository.insertSale(sale);
+  if (product.stock > 0) {
+    const saleReturn = await SaleRepository.insertSale(sale);
+    product.stock--;
+    await ProductRepository.updateProduct(product);
+    return saleReturn;
+  } else {
+    throw new Error("O produto informado não possui estoque.");
+  }
 }
 
 async function getSales() {
