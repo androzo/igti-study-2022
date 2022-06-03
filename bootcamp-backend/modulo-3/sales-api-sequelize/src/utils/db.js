@@ -1,18 +1,12 @@
-import pg from "pg";
+import Sequelize from "sequelize";
 
-async function connect() {
-  if (global.connection) {
-    return global.connection.connect();
-  }
-  try {
-    const pool = new pg.Pool({
-      connectionString: "postgres://postgres:changeme@localhost:5432/postgres",
-    });
-    global.connection = pool;
-    return pool.connect();
-  } catch (error) {
-    throw new Error(`Error connecting to the database: ${error.message}`);
-  }
-}
+const connection = "postgres://postgres:changeme@localhost:5432/postgres";
 
-export { connect };
+const sequelize = new Sequelize(connection, {
+  dialect: "postgres",
+  define: {
+    timestamps: false,
+  },
+});
+
+export { sequelize };
