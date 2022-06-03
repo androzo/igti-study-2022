@@ -28,10 +28,10 @@ async function updatePet(pet) {
   try {
     await Pet.update(pet, {
       where: {
-        petId: pet.animal_id,
+        animalId: pet.animalId,
       },
     });
-    return await getOwners(pet.animal_id);
+    return await getPet(pet.animalId);
   } catch (err) {
     throw err;
   }
@@ -41,7 +41,7 @@ async function deletePet(id) {
   try {
     await Pet.destroy({
       where: {
-        petId: id,
+        animalId: id,
       },
     });
   } catch (err) {

@@ -20,7 +20,6 @@ CONSTRAINT fk_proprietarios FOREIGN KEY (proprietario_id) REFERENCES proprietari
 );
 
 
-
 INSERT INTO proprietarios (nome, telefone) VALUES ('Alda Valentim', '(39) 98566-1222');
 INSERT INTO proprietarios (nome, telefone) VALUES ('Nicolas Avelar', '(28) 97432-0379');
 INSERT INTO proprietarios (nome, telefone) VALUES ('Emilly Baptista', '(31) 99545-2457');

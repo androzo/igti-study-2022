@@ -1,8 +1,8 @@
 import Sequelize from "sequelize";
-import sequelize from "../utils/db.js";
+import db from "../utils/db.js";
 import Owner from "./proprietario.model.js";
 
-const Pet = sequelize.define(
+const Pet = db.define(
   "animais",
   {
     animalId: {
@@ -11,7 +11,11 @@ const Pet = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
-    name: {
+    nome: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    tipo: {
       type: Sequelize.STRING,
       allowNull: false,
     },

@@ -2,7 +2,7 @@ import PetRepository from "../repositories/animal.repository.js";
 import OwnerRepository from "../repositories/proprietario.repository.js";
 
 async function createPet(pet) {
-  if (await OwnerRepository.getOwner(pet.proprietario_id)) {
+  if (await OwnerRepository.getOwner(pet.proprietarioId)) {
     return await PetRepository.insertPet(pet);
   }
   throw new Error("Proprietario inexistente na base");
@@ -25,7 +25,7 @@ async function deletePet(id) {
 }
 
 async function updatePet(pet) {
-  if (await OwnerRepository.getOwner(pet.proprietario_id)) {
+  if (await OwnerRepository.getOwner(pet.proprietarioId)) {
     return PetRepository.updatePet(pet);
   }
   throw new Error("Proprietario inexistente na base");

@@ -2,7 +2,7 @@ import Owner from "../models/proprietario.model.js";
 
 async function insertOwner(owner) {
   try {
-    Owner.create(owner);
+    return await Owner.create(owner);
   } catch (err) {
     throw err;
   }
@@ -28,10 +28,10 @@ async function updateOwner(owner) {
   try {
     await Owner.update(owner, {
       where: {
-        proprietarioId: owner.proprietario_id,
+        proprietarioId: owner.proprietarioId,
       },
     });
-    return await getOwners(owner.proprietario_id);
+    return await getOwners(owner.proprietarioId);
   } catch (err) {
     throw err;
   }

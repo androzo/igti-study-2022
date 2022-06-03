@@ -4,9 +4,9 @@ async function createPet(req, res, next) {
   try {
     let pet = req.body;
 
-    if (!pet.nome || !pet.tipo || !pet.proprietario_id) {
+    if (!pet.nome || !pet.tipo || !pet.proprietarioId) {
       throw new Error(
-        "Os campos nome, tipo e proprietario_id são obrigatórios."
+        "Os campos nome, tipo e proprietarioId são obrigatórios."
       );
     }
     pet = await PetService.createPet(pet);
@@ -19,7 +19,7 @@ async function createPet(req, res, next) {
 
 async function getPets(req, res, next) {
   try {
-    res.send(await PetService.getPets(req.query.proprietario_id));
+    res.send(await PetService.getPets(req.query.proprietarioId));
     logger.info(`GET /animal`);
   } catch (err) {
     next(err);
@@ -48,9 +48,9 @@ async function deletePet(req, res, next) {
 async function updatePet(req, res, next) {
   try {
     let pet = req.body;
-    if (!pet.animal_id || !pet.nome || !pet.tipo || !pet.proprietario_id) {
+    if (!pet.animalId || !pet.nome || !pet.tipo || !pet.proprietarioId) {
       throw new Error(
-        "Os campos animal_id, nome, tipo e proprietario_id são obrigatórios."
+        "Os campos animalId, nome, tipo e proprietarioId são obrigatórios."
       );
     }
 
