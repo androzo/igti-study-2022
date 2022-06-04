@@ -1,4 +1,4 @@
-version: '3.5'
+version: "3.5"
 
 services:
   postgres:
@@ -9,33 +9,55 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       PGDATA: /data/postgres
     volumes:
-       - postgres:/data/postgres
+      - postgres:/data/postgres
     ports:
       - "5432:5432"
     networks:
-      - postgres
+      - local
     restart: unless-stopped
-  
+
   pgadmin:
     container_name: pgadmin_container
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_SERVER_MODE: "False"
     volumes:
-       - pgadmin:/var/lib/pgadmin
+      - pgadmin:/var/lib/pgadmin
 
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
-      - postgres
+      - local
     restart: unless-stopped
 
+  mongo-express:
+    image: mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_PORT: 27017
+    links:
+      - mongo
+    networks:
+      - local
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    environment:
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+    ports:
+      - "27017:27017"
+    networks:
+      - local
+
 networks:
-  postgres:
+  local:
     driver: bridge
 
 volumes:
-    postgres:
-    pgadmin:
+  postgres:
+  pgadmin:

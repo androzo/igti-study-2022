@@ -2,6 +2,7 @@ import express from "express";
 import ownerRouter from "./src/routes/proprietario.route.js";
 import petRouter from "./src/routes/animal.route.js";
 import servicoRouter from "./src/routes/servico.route.js";
+import postRouter from "./src/routes/post.route.js";
 import cors from "cors";
 import winston from "winston";
 
@@ -25,6 +26,7 @@ app.use(cors());
 app.use("/proprietario", ownerRouter);
 app.use("/animal", petRouter);
 app.use("/servico", servicoRouter);
+app.use("/post", postRouter);
 app.use((err, req, res, next) => {
   if (err.message) {
     res.status(400).send({ error: err.message });

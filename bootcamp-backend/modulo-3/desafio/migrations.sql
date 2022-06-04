@@ -19,6 +19,14 @@ proprietario_id INT NOT NULL,
 CONSTRAINT fk_proprietarios FOREIGN KEY (proprietario_id) REFERENCES proprietarios (proprietario_id)
 );
 
+CREATE TABLE servicos (
+  servico_id SERIAL PRIMARY KEY,
+  descricao VARCHAR NOT NULL,
+  valor NUMERIC NOT NULL,
+  animal_id INT NOT NULL,
+  CONSTRAINT fk_animais FOREIGN KEY (animal_id) REFERENCES animais (animal_id)
+);
+
 
 INSERT INTO proprietarios (nome, telefone) VALUES ('Alda Valentim', '(39) 98566-1222');
 INSERT INTO proprietarios (nome, telefone) VALUES ('Nicolas Avelar', '(28) 97432-0379');
