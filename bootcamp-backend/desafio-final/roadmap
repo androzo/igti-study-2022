@@ -1,0 +1,10 @@
+(x) 1. Criação do banco de dados relacional
+(x) 2. Criação do banco de dados NoSQL
+() 3. Desenvolvimento dos endpoints:
+	() Endpoints do cliente
+	() Endpoints do autor
+	() Endpoints do livro
+	() Endpoints da venda
+() 4. Desenvolvimento do mecanismo de autenticação e autorização
+() 5. Testes de integração
+
