@@ -1,8 +1,8 @@
 import express from "express";
-import ownerRouter from "./src/routes/proprietario.route.js";
-import petRouter from "./src/routes/animal.route.js";
-import servicoRouter from "./src/routes/servico.route.js";
-import postRouter from "./src/routes/post.route.js";
+import authorRouter from "./src/routes/autor.route";
+import bookRouter from "./src/routes/livro.route";
+import saleRouter from "./src/routes/venda.route.js";
+import clientRouter from "./src/routes/cliente.route.js";
 import cors from "cors";
 import winston from "winston";
 
@@ -15,18 +15,18 @@ global.logger = winston.createLogger({
   level: "silly",
   transports: [
     new winston.transports.Console(),
-    new winston.transports.File({ filename: "petstore-api.log" }),
+    new winston.transports.File({ filename: "bookstore-api.log" }),
   ],
-  format: combine(label({ label: "petstore-api" }), timestamp(), myFormat),
+  format: combine(label({ label: "bookstore-api" }), timestamp(), myFormat),
 });
 const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use("/proprietario", ownerRouter);
-app.use("/animal", petRouter);
-app.use("/servico", servicoRouter);
-app.use("/posts", postRouter);
+app.use("/proprietario", authorRouter);
+app.use("/animal", bookRouter);
+app.use("/sale", saleRouter);
+app.use("/clients", clientRouter);
 app.use((err, req, res, next) => {
   if (err.message) {
     res.status(400).send({ error: err.message });
