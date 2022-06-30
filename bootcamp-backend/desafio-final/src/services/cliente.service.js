@@ -1,5 +1,5 @@
-import CustomerRepository from "../repositories/cliente.repository";
-import SaleRepository from "../repositories/venda.repository";
+import CustomerRepository from "../repositories/cliente.repository.js";
+import SaleRepository from "../repositories/venda.repository.js";
 
 async function createCustomer(author) {
   return await CustomerRepository.insertCustomer(author);

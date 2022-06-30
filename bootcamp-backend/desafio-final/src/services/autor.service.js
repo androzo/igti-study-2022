@@ -1,5 +1,5 @@
-import AuthorRepository from "../repositories/autor.repository";
-import BookRepository from "../repositories/livro.repository";
+import AuthorRepository from "../repositories/autor.repository.js";
+import BookRepository from "../repositories/livro.repository.js";
 
 async function createAuthor(author) {
   return await AuthorRepository.insertAuthor(author);

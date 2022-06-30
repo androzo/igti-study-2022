@@ -1,5 +1,5 @@
-import BookRepository from "../repositories/animal.repository.js";
-import AuthorRepository from "../repositories/autor.repository";
+import BookRepository from "../repositories/livro.repository.js";
+import AuthorRepository from "../repositories/autor.repository.js";
 
 async function createBook(book) {
   if (await AuthorRepository.getAuthor(book.authorId)) {
@@ -31,16 +31,16 @@ async function updateBook(book) {
   throw new Error("Autor inexistente na base");
 }
 
-async function createBookInfo(postInfo) {
-  await BookRepository.createBook(postInfo);
+async function createBookInfo(bookInfo) {
+  await BookRepository.createBook(bookInfo);
 }
 
 async function getBooksInfo() {
   return await BookRepository.getBooksInfo();
 }
 
-async function createReview(post) {
-  return await BookRepository.createReview(post);
+async function createReview(book) {
+  return await BookRepository.createReview(book);
 }
 
 export default {

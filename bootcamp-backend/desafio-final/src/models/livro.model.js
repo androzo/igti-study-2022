@@ -27,6 +27,6 @@ const Book = db.define(
   { underscored: true }
 );
 
-Livro.belongsTo(Author, { foreignKey: "authorId" });
+Book.belongsTo(Author, { foreignKey: "authorId" });
 
 export default Book;

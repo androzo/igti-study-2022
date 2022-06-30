@@ -1,6 +1,6 @@
 import SaleRepository from "../repositories/venda.repository.js";
 import BookRepository from "../repositories/livro.repository.js";
-import CustomerRepository from "../repositories/cliente.repository"
+import CustomerRepository from "../repositories/cliente.repository.js"
 
 async function createSale(venda) {
   if (await BookRepository.getBook(venda.livroId) && await CustomerRepository.getCustomer(venda.clienteId)) {
